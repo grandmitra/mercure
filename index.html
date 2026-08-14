@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Mercure Material List</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f4f7fc;
+            padding: 16px 12px 30px;
+            color: #1e2a3a;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* header & controls */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px 16px;
+            background: white;
+            padding: 14px 18px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            margin-bottom: 20px;
+            border: 1px solid #e9edf4;
+        }
+        .toolbar .title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #0b2a4a;
+            margin-right: auto;
+            letter-spacing: 0.3px;
+        }
+        .toolbar .title small {
+            font-weight: 400;
+            font-size: 0.8rem;
+            color: #5e6f8d;
+            display: inline-block;
+            margin-left: 6px;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 12px;
+            width: 100%;
+        }
+        .controls .search-box {
+            flex: 1 1 200px;
+            min-width: 160px;
+            display: flex;
+            align-items: center;
+            background: #f0f3f8;
+            border-radius: 40px;
+            padding: 0 16px;
+            border: 1px solid transparent;
+            transition: 0.2s;
+        }
+        .controls .search-box:focus-within {
+            background: white;
+            border-color: #2f6ed6;
+            box-shadow: 0 0 0 3px rgba(47,110,214,0.15);
+        }
+        .controls .search-box i {
+            color: #6b7e9c;
+            font-size: 1.1rem;
+            margin-right: 8px;
+        }
+        .controls .search-box input {
+            border: none;
+            background: transparent;
+            padding: 12px 0;
+            width: 100%;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .controls .search-box input::placeholder {
+            color: #99aabe;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px 12px;
+        }
+        .filter-group .filter-select {
+            background: #f0f3f8;
+            border: 1px solid #dce2ec;
+            border-radius: 30px;
+            padding: 9px 18px 9px 16px;
+            font-size: 0.9rem;
+            color: #1e2a3a;
+            cursor: pointer;
+            outline: none;
+            max-width: 160px;
+        }
+        .filter-group .filter-select:focus {
+            border-color: #2f6ed6;
+        }
+
+        .btn {
+            background: white;
+            border: 1px solid #d0d9e6;
+            border-radius: 40px;
+            padding: 9px 18px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1e2a3a;
+            cursor: pointer;
+            transition: 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            background: #f8faff;
+        }
+        .btn:hover {
+            background: #e9eff8;
+            border-color: #b3c2d6;
+        }
+        .btn-primary {
+            background: #1a3d6d;
+            border-color: #1a3d6d;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #0f2d52;
+            border-color: #0f2d52;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #c8d3e3;
+        }
+        .btn-toggle {
+            min-width: 100px;
+            justify-content: center;
+        }
+        .btn-toggle.active {
+            background: #1a3d6d;
+            border-color: #1a3d6d;
+            color: white;
+        }
+
+        .clear-btn {
+            background: transparent;
+            border: none;
+            color: #6b7e9c;
+            font-size: 0.85rem;
+            padding: 0 6px;
+            cursor: pointer;
+            text-decoration: underline dotted;
+        }
+        .clear-btn:hover {
+            color: #1a3d6d;
+        }
+
+        /* table wrapper */
+        .table-wrapper {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+            border: 1px solid #e9edf4;
+            overflow: hidden;
+            padding: 0 4px 4px 4px;
+        }
+        .table-scroll {
+            overflow-x: auto;
+            padding: 0 4px;
+            -webkit-overflow-scrolling: touch;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 700px;
+        }
+        th {
+            background: #f0f5fd;
+            color: #1d314a;
+            font-weight: 600;
+            padding: 14px 8px;
+            text-align: left;
+            border-bottom: 2px solid #d9e2ef;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #eaeef5;
+            vertical-align: middle;
+            word-break: break-word;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .text-muted {
+            color: #6b7e9c;
+        }
+        .badge {
+            display: inline-block;
+            background: #eef3f9;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #1f3a5e;
+        }
+        .price-up {
+            color: #c73b3b;
+            font-weight: 500;
+        }
+        .price-down {
+            color: #1f7b4d;
+            font-weight: 500;
+        }
+        .price-equal {
+            color: #7a7f8a;
+        }
+        .note-tag {
+            background: #e6edf8;
+            border-radius: 16px;
+            padding: 0 12px;
+            font-size: 0.7rem;
+            color: #1f3a5e;
+            display: inline-block;
+            max-width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pagination {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 12px 6px;
+            gap: 12px;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e9f2;
+            background: #fafcff;
+            border-radius: 0 0 20px 20px;
+        }
+        .pagination .info {
+            color: #435571;
+        }
+        .pagination .pages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .pagination .page-btn {
+            background: white;
+            border: 1px solid #d4deec;
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .pagination .page-btn.active {
+            background: #1a3d6d;
+            border-color: #1a3d6d;
+            color: white;
+        }
+        .pagination .page-btn:hover:not(.active) {
+            background: #e9eff8;
+        }
+        .pagination .page-btn:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        @media (max-width: 640px) {
+            .toolbar .title {
+                font-size: 1rem;
+                width: 100%;
+                margin-bottom: 4px;
+            }
+            .controls .search-box {
+                flex: 1 1 100%;
+            }
+            .filter-group {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .btn {
+                padding: 7px 14px;
+                font-size: 0.8rem;
+            }
+            .btn-toggle {
+                min-width: 80px;
+            }
+            th, td {
+                padding: 10px 6px;
+                font-size: 0.75rem;
+            }
+            .pagination {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .pagination .pages {
+                justify-content: center;
+            }
+        }
+        /* ikon kecil */
+        .icon-arrow-up { color: #c73b3b; }
+        .icon-arrow-down { color: #1f7b4d; }
+        .icon-dot { color: #7a7f8a; }
+        .flex-center {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* no result */
+        .no-result {
+            padding: 40px 10px;
+            text-align: center;
+            color: #6b7e9c;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .download-btn {
+            background: #1a5c3a;
+            border-color: #1a5c3a;
+            color: white;
+        }
+        .download-btn:hover {
+            background: #0e4228;
+            border-color: #0e4228;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="toolbar">
+        <div class="title">
+            🏨 Mercure Material <small>EXCL. PPN</small>
+        </div>
+        <div class="controls">
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="Cari material, unit..." @input="filterData">
+            </div>
+            <div class="filter-group">
+                <select id="noteFilter" class="filter-select" @change="filterData">
+                    <option value="">Semua Note</option>
+                    <option value="pilihan brand">pilihan brand</option>
+                    <option value="sdg ditanyakan">sdg ditanyakan</option>
+                    <option value="sdg dicari">sdg dicari</option>
+                    <option value="Local">Local</option>
+                    <option value="kuantiti besar">kuantiti besar</option>
+                </select>
+                <button class="btn btn-toggle" id="ppnToggle" @click="togglePPN">
+                    💰 <span id="ppnLabel">Exclude PPN</span>
+                </button>
+                <button class="btn clear-btn" @click="clearFilters">✕ Clear</button>
+                <button class="btn download-btn" @click="downloadExcel">⬇ Download Excel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Material</th>
+                        <th>Note</th>
+                        <th>Unit</th>
+                        <th>Harga (Exc)</th>
+                        <th>Harga (Inc)</th>
+                        <th>Perbandingan</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- rows generated by JS -->
+                </tbody>
+            </table>
+        </div>
+        <div id="paginationWrapper" class="pagination">
+            <div class="info" id="pageInfo">0 item</div>
+            <div class="pages" id="pageButtons"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========= DATA =========
+// (diparse dari spreadsheet, hanya baris dengan material)
+const rawRows = [
+    { no: 1, material: "Pasir", note: "Local", unit: "m3", priceEx: 225000, priceInc: 550000, ukuran: "PASIR BANGKA HG", keterangan: "" },
+    { no: 2, material: "Batako", note: "Local", unit: "bh", priceEx: 3500, priceInc: 2500, ukuran: "", keterangan: "" },
+    { no: 3, material: "Semen ( 50 kg )", note: "Tiga Roda/Setara", unit: "Zak", priceEx: 60300, priceInc: 62000, ukuran: "TIGA RODA SEMEN 40KG", keterangan: "" },
+    { no: 4, material: "Semen (/kg)", note: "Tiga Roda/Setara", unit: "kg", priceEx: 1206, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 5, material: "SHEET PILE", note: "Adhimix", unit: "m'", priceEx: 1757306.49, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 6, material: "SHEET PILE", note: "Adhimix", unit: "m'", priceEx: 1314515, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 7, material: "Beton Readymix B0 12+- 2cm NFA", note: "Merak Beton", unit: "m3", priceEx: 967000, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 8, material: "Beton Readymix Fc 40 12+- 2cm NFA", note: "Merak Beton", unit: "m3", priceEx: 1201000, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 9, material: "Beton Readymix Fc 55 12+- 2cm NFA", note: "Merak Beton", unit: "m3", priceEx: 1285000, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 10, material: "Beton Readymix Fc 40 12+- 2cm NFA, Semen Tipe 5", note: "Merak Beton", unit: "m3", priceEx: 1601000, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 11, material: "Beton Readymix Fc 55 12+- 2cm NFA, Semen Tipe 5", note: "Merak Beton", unit: "m3", priceEx: 1685000, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 12, material: "Rebar fy420", note: "Inter World Steel", unit: "kg", priceEx: 9955, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 13, material: "Rebar fy520", note: "Inter World Steel", unit: "kg", priceEx: 10455, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 14, material: "Kawat beton", note: "", unit: "kg", priceEx: 13000, priceInc: 20000, ukuran: "", keterangan: "" },
+    { no: 15, material: "AAC 600 x 200 x 75-100 mm", note: "Leichtbrick", unit: "m3", priceEx: 545000, priceInc: 590000, ukuran: "", keterangan: "" },
+    { no: 16, material: "AAC 600 x 200 x 125-150-200 mm", note: "Leichtbrick", unit: "m3", priceEx: 545000, priceInc: 590000, ukuran: "", keterangan: "" },
+    { no: 17, material: "Perekat Bata ringan AAC (Premium)", note: "MU, LM, atau setara", unit: "kg", priceEx: 1350, priceInc: 106900, ukuran: "SIKAMUR 130 THINBED 40KG", keterangan: "=H22/40" },
+    { no: 18, material: "Perekat Bata ringan AAC (Eco)", note: "MU, LM, atau setara", unit: "kg", priceEx: 1200, priceInc: 85000, ukuran: "AM 48 thinbed per sak 40kg", keterangan: "=H23/40" },
+    { no: 19, material: "Base plaster & pasangan bata merah", note: "MU, LM, atau setara", unit: "kg", priceEx: 800, priceInc: 93000, ukuran: "MU 301 per sak 40 kg", keterangan: "=H24/40" },
+    { no: 20, material: "Plaster trasram water repellent", note: "MU, LM, atau setara", unit: "kg", priceEx: 1500, priceInc: 150000, ukuran: "MU 101 per sak 40 kg", keterangan: "=H25/40" },
+    { no: 21, material: "Acian untuk dinding plesteran", note: "MU, LM, atau setara", unit: "kg", priceEx: 1350, priceInc: 107900, ukuran: "SIKAWALL 181 SKIMCOAT 40KG", keterangan: "=H26/40" },
+    { no: 22, material: "Skimcoat & ekspos permukaan beton (grey)", note: "MU, LM, atau setara", unit: "kg", priceEx: 1450, priceInc: 134000, ukuran: "Hydrostop per 20kg", keterangan: "" },
+    { no: 23, material: "Skimcoat & ekspos permukaan beton (White)", note: "MU, LM, atau setara", unit: "kg", priceEx: 2400, priceInc: 160000, ukuran: "Hydrostop per 20kg", keterangan: "" },
+    { no: 24, material: "Plaster finish (Render)", note: "MU, LM, atau setara", unit: "kg", priceEx: 1450, priceInc: 93000, ukuran: "MU 301 per sak 40 kg", keterangan: "" },
+    { no: 25, material: "Screed lantai", note: "MU, LM, atau setara", unit: "kg", priceEx: 800, priceInc: 97000, ukuran: "MU 440", keterangan: "" },
+    { no: 26, material: "Perekat keramik untuk dinding & lantai", note: "MU, LM, atau setara", unit: "kg", priceEx: 1550, priceInc: 130000, ukuran: "MU 400 per sak 25kg", keterangan: "" },
+    { no: 27, material: "Perekat keramik diatas keramik Tile on Tile", note: "MU, LM, atau setara", unit: "kg", priceEx: 3000, priceInc: 236000, ukuran: "MU 480 per sak 25kg", keterangan: "" },
+    { no: 28, material: "Perekat keramik untuk dinding & lantai warna putih", note: "MU, LM, atau setara", unit: "kg", priceEx: 7000, priceInc: 130000, ukuran: "MU 400 per sak 25kg", keterangan: "" },
+    { no: 29, material: "Perekat Big Slab", note: "MU, LM, atau setara", unit: "kg", priceEx: 10340, priceInc: 245000, ukuran: "SIKA", keterangan: "" },
+    { no: 30, material: "Pengisi nat keramik untuk dinding & lantai", note: "MU, LM, atau setara", unit: "kg", priceEx: 7000, priceInc: 32000, ukuran: "AM 51/bgkus", keterangan: "" },
+    { no: 31, material: "Floor hardener / pengeras lantai beton", note: "MU, LM, atau setara", unit: "kg", priceEx: 3000, priceInc: 100000, ukuran: "Natural Fosroc per sak", keterangan: "" },
+    { no: 32, material: "Perbaikan dinding beton & sebagai Bonding agent", note: "MU, LM, atau setara", unit: "kg", priceEx: 3000, priceInc: 288000, ukuran: "super cement /5kg", keterangan: "" },
+    { no: 33, material: "Perbaikan dinding acian bergelombang dan retak", note: "MU, LM, atau setara", unit: "kg", priceEx: 3000, priceInc: 134000, ukuran: "Hydrostop per 20kg", keterangan: "" },
+    { no: 34, material: "Self leveling perata lantai untuk pemasangan vinyl & Parquet", note: "MU, LM, atau setara", unit: "kg", priceEx: 9000, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 35, material: "Non Shrink Grout", note: "MU, LM, atau setara", unit: "kg", priceEx: 4000, priceInc: 120000, ukuran: "sika grout 215 per 25kg", keterangan: "" },
+    { no: 36, material: "Bonding agent & Primer (Liquid)", note: "MU, LM, atau setara", unit: "kg", priceEx: 26000, priceInc: 288000, ukuran: "super cement /5kg", keterangan: "" },
+    { no: 37, material: "(ST.01) Sintered Stone 1200x2400mm Nimbus Grey Polished", note: "Quadra", unit: "m2", priceEx: 1020000, priceInc: 842001, ukuran: "120X240", keterangan: "pilihan brand :Quadra, Dekton, Titanium, Adiguna" },
+    { no: 38, material: "(ST.01B) Sintered Stone 1200x2400mm Festa Gold Polished", note: "Quadra", unit: "m2", priceEx: 1020000, priceInc: 2427000, ukuran: "160X320/5.12M2", keterangan: "pilihan brand :Quadra, Dekton, Titanium, Adiguna" },
+    { no: 39, material: "(ST.02) Sintered Stone 1200x2400mm Symphonia Vapore Polished", note: "Quadra", unit: "m2", priceEx: 1020000, priceInc: 884022, ukuran: "120X240", keterangan: "pilihan brand :Quadra, Dekton, Titanium, Adiguna" },
+    { no: 40, material: "(ST.03) Homogenous Tile 600x600mm Marble Conti Flow Polished", note: "Ikad", unit: "m2", priceEx: 125500, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 41, material: "(ST.04A) Homogenous Tile 600x600mm Ford Bianco Concrete Color Matt Grip R12", note: "Valentino gress, Ikad", unit: "m2", priceEx: 129600, priceInc: 129600, ukuran: "60x60", keterangan: "" },
+    { no: 42, material: "(ST.04B) Homogenous Tile 600x600mm Armadeo Grigio Matt Grip R12", note: "Valentino gress, Ikad", unit: "m2", priceEx: 129600, priceInc: null, ukuran: "di katalog tdk ada", keterangan: "" },
+    { no: 43, material: "(ST.04C) Homogenous Tile 600x1200mm Perugia Light Color Polished", note: "Valentino gress, Ikad", unit: "m2", priceEx: 198720, priceInc: null, ukuran: "60x120", keterangan: "" },
+    { no: 44, material: "(ST.04D) Homogenous Tile 600x1200mm Veneto Grafite Color Polished", note: "Valentino gress, Ikad", unit: "m2", priceEx: 207360, priceInc: 207360, ukuran: "60x121", keterangan: "" },
+    { no: 45, material: "(ST.04E) Sintered Stone 1200x2400mm Frassino Grey Polished", note: "Quadra", unit: "m2", priceEx: 961400, priceInc: null, ukuran: "", keterangan: "pilihan brand :Quadra, Dekton, Titanium, Adiguna" },
+    { no: 46, material: "(ST.05A) Homogenous Tile 600x600mm Vena Bianco Matt Grip R12", note: "Valentino gress, Ikad", unit: "m2", priceEx: 129600, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 47, material: "(ST.05B) Homogenous Tile 600x600mm Vena Blanco Polished", note: "Valentino gress, Ikad", unit: "m2", priceEx: 112950, priceInc: 112950, ukuran: "note : kuantiti besar", keterangan: "" },
+    { no: 48, material: "(ST.05C) Homogenous Tile 600x1200mm Vena Bianco Color Polished", note: "Valentino gress, Ikad", unit: "m2", priceEx: 148950, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 49, material: "(ST.06) Homogenous Tile 600x600mm Light Grey Cementous Color Matt Grip R12", note: "Valentino gress, Ikad", unit: "m2", priceEx: 118000, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 50, material: "(ST.07) Sintered Stone 1200x2400mm Dark Grey Texture Color Matt Grip R12", note: "Quadra", unit: "m2", priceEx: 961400, priceInc: null, ukuran: "di katalog tdk ada warna dark grey R12", keterangan: "pilihan brand :Quadra, Dekton, Titanium, Adiguna" },
+    { no: 51, material: "(ST.08) Mosaic Tile 500x500mm Dark Green Color Matt Texture", note: "Kuda Laut", unit: "m2", priceEx: 420000, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 52, material: "(ST.09A, B, C, D) Andesite Stone Tile 100x100mm Black Color Polished/Honed/Flammed/Hammer Finish", note: "", unit: "m2", priceEx: 350000, priceInc: null, ukuran: "Local", keterangan: "" },
+    { no: 53, material: "(ST.10) Flexible Clay Tile 1180x595mm Dark Grey Color Texture", note: "FlexClay", unit: "m2", priceEx: 300000, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 54, material: "(ST.11) Roster Brick 200x100x90mm With Water Repellant Coating", note: "", unit: "m2", priceEx: 288888.89, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 55, material: "(CT.01) Ceramic Tile 400x400mm White Color Matt Finish", note: "Ikad", unit: "m2", priceEx: 51609.375, priceInc: null, ukuran: "sdg dicari", keterangan: "" },
+    { no: 56, material: "(CT.02) Ceramic Tile 200x250mm White Color Matt Finish", note: "Ikad", unit: "m2", priceEx: 51609.375, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 57, material: "(CT.03) Ceramic Tile 300x300mm Grey Color Structured Finish", note: "Ikad", unit: "m2", priceEx: 62026.04, priceInc: 56000, ukuran: "asia tile", keterangan: "" },
+    { no: 58, material: "(CT.03) Ceramic Tile 400x400mm Grey Color Structured Finish", note: "Ikad", unit: "m2", priceEx: 62026.04, priceInc: 68000, ukuran: "asia tile", keterangan: "" },
+    { no: 59, material: "(PL.02) Sintered Stone tinggi 100mm; Nimbus Grey Color Polished Finish", note: "Quadra", unit: "m'", priceEx: 102000, priceInc: 70000, ukuran: "potong linear (lurus)/m'", keterangan: "pilihan brand :Quadra, Dekton, Titanium, Adiguna" },
+    { no: 60, material: "(PL.03) Sintered Stone tinggi 100mm; Symphonia Grey Color Glossy Finish", note: "Quadra", unit: "m'", priceEx: 102000, priceInc: 70000, ukuran: "potong linear (lurus)/m'", keterangan: "pilihan brand :Quadra, Dekton, Titanium, Adiguna" },
+    { no: 61, material: "(PL.04) Homogenous Tile 600x100mm White Grey Color Glossy Finish", note: "Valentino gress, Ikad", unit: "m'", priceEx: 16550, priceInc: null, ukuran: "sdg ditanyakan ke VG", keterangan: "" },
+    { no: 62, material: "(PL.07) Homogenous Tile 600x100mm Light Grey Color Matt Finish", note: "Valentino gress, Ikad", unit: "m'", priceEx: 12980, priceInc: null, ukuran: "sdg ditanyakan ke VG", keterangan: "" },
+    { no: 63, material: "(PL.5 ex PL10) Ceramic Tile 400x100mm White Color Matt Finish", note: "Ikad", unit: "m'", priceEx: 7741.40625, priceInc: null, ukuran: "", keterangan: "" },
+    { no: 64, material: "Roster Brick", note: "", unit: "Bh", priceEx: 12500, priceInc: 12500, ukuran: "", keterangan: "" },
+    { no: 65, material: "(WPC.02) Wood Plastic Composite (WPC) Panel 180x25mm", note: "Natural Wood Matt Hairline Finish", unit: "m'", priceEx: 131034.48, priceInc: null, ukuran: "", keterangan: "pilihan brand : GRM Biowood, Kayu Asri, Duma" },
+    { no: 66, material: "(WPC.03) Wood Plastic Composite (WPC) Panel 200x28mm", note: "Natural Wood Matt Hairline Finish", unit: "m'", priceEx: 137931.03, priceInc: null, ukuran: "", keterangan: "pilihan brand : GRM Biowood, Kayu Asri, Duma" }
+];
+
+// ========= VUE-LIKE STATE =========
+let state = {
+    rows: [...rawRows],
+    filtered: [],
+    pageSize: 15,
+    currentPage: 1,
+    includePPN: false,
+    search: '',
+    noteFilter: '',
+};
+
+// DOM refs
+const tbody = document.getElementById('tableBody');
+const pageInfo = document.getElementById('pageInfo');
+const pageButtons = document.getElementById('pageButtons');
+const searchInput = document.getElementById('searchInput');
+const noteFilter = document.getElementById('noteFilter');
+const ppnToggle = document.getElementById('ppnToggle');
+const ppnLabel = document.getElementById('ppnLabel');
+
+function formatCurrency(val) {
+    if (val === null || val === undefined) return '-';
+    return 'Rp ' + Number(val).toLocaleString('id-ID');
+}
+
+function getPrice(row, includePPN) {
+    if (includePPN && row.priceInc !== null && row.priceInc !== undefined) return row.priceInc;
+    return row.priceEx;
+}
+
+function getComparison(row) {
+    const a = row.priceEx;
+    const b = row.priceInc;
+    if (a === null || b === null || a === undefined || b === undefined) return { label: '-', cls: '' };
+    const diff = b - a;
+    if (Math.abs(diff) < 1) return { label: 'Sama', cls: 'price-equal' };
+    if (diff > 0) return { label: '▲ Lebih Mahal', cls: 'price-up' };
+    return { label: '▼ Lebih Murah', cls: 'price-down' };
+}
+
+function render() {
+    // filter
+    let filtered = [...state.rows];
+    const s = state.search.trim().toLowerCase();
+    if (s) {
+        filtered = filtered.filter(r => 
+            r.material.toLowerCase().includes(s) ||
+            r.note.toLowerCase().includes(s) ||
+            r.unit.toLowerCase().includes(s) ||
+            (r.ukuran && r.ukuran.toLowerCase().includes(s))
+        );
+    }
+    if (state.noteFilter) {
+        filtered = filtered.filter(r => r.note.toLowerCase().includes(state.noteFilter.toLowerCase()));
+    }
+    state.filtered = filtered;
+
+    // pagination
+    const total = filtered.length;
+    const pageSize = state.pageSize;
+    const totalPages = Math.ceil(total / pageSize) || 1;
+    let page = state.currentPage;
+    if (page > totalPages) page = totalPages;
+    if (page < 1) page = 1;
+    state.currentPage = page;
+
+    const start = (page - 1) * pageSize;
+    const end = Math.min(start + pageSize, total);
+    const pageData = filtered.slice(start, end);
+
+    // build rows
+    let html = '';
+    if (pageData.length === 0) {
+        html = `<tr><td colspan="8" class="no-result">Tidak ada material ditemukan.</td></tr>`;
+    } else {
+        pageData.forEach((row, idx) => {
+            const price = getPrice(row, state.includePPN);
+            const priceDisplay = price !== null && price !== undefined ? formatCurrency(price) : '-';
+            const priceExDisplay = formatCurrency(row.priceEx);
+            const comp = getComparison(row);
+            const noteShort = row.note || '-';
+            const ukuranDisplay = row.ukuran || '';
+            html += `<tr>
+                <td>${row.no}</td>
+                <td><strong>${row.material}</strong>${ukuranDisplay ? '<br><span class="badge">'+ukuranDisplay+'</span>' : ''}</td>
+                <td><span class="note-tag">${noteShort}</span></td>
+                <td>${row.unit}</td>
+                <td>${priceExDisplay}</td>
+                <td>${state.includePPN ? priceDisplay : (row.priceInc !== null ? formatCurrency(row.priceInc) : '-')}</td>
+                <td><span class="${comp.cls}">${comp.label}</span></td>
+                <td style="max-width:140px; font-size:0.75rem; color:#2c3e5c;">${row.keterangan || ''}</td>
+            </tr>`;
+        });
+    }
+    tbody.innerHTML = html;
+
+    // pagination info
+    pageInfo.textContent = `Menampilkan ${total > 0 ? start+1 : 0} - ${end} dari ${total} item`;
+
+    // page buttons
+    let btnHtml = '';
+    btnHtml += `<button class="page-btn" data-page="${page-1}" ${page<=1?'disabled':''}>‹</button>`;
+    for (let i=1; i<=totalPages; i++) {
+        btnHtml += `<button class="page-btn ${i===page?'active':''}" data-page="${i}">${i}</button>`;
+    }
+    btnHtml += `<button class="page-btn" data-page="${page+1}" ${page>=totalPages?'disabled':''}>›</button>`;
+    pageButtons.innerHTML = btnHtml;
+
+    // attach events
+    document.querySelectorAll('#pageButtons .page-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const p = parseInt(this.dataset.page);
+            if (!isNaN(p) && p >=1 && p <= totalPages) {
+                state.currentPage = p;
+                render();
+            }
+        });
+    });
+}
+
+// ========= EVENTS =========
+function filterData() {
+    state.search = searchInput.value;
+    state.noteFilter = noteFilter.value;
+    state.currentPage = 1;
+    render();
+}
+
+function clearFilters() {
+    searchInput.value = '';
+    noteFilter.value = '';
+    state.search = '';
+    state.noteFilter = '';
+    state.currentPage = 1;
+    render();
+}
+
+function togglePPN() {
+    state.includePPN = !state.includePPN;
+    ppnLabel.textContent = state.includePPN ? 'Include PPN' : 'Exclude PPN';
+    ppnToggle.classList.toggle('active', state.includePPN);
+    render();
+}
+
+// ========= DOWNLOAD EXCEL (CSV) =========
+function downloadExcel() {
+    // export filtered data (semua, tanpa paginasi)
+    const rows = state.filtered.length ? state.filtered : state.rows;
+    const includePPN = state.includePPN;
+    let csv = "No,Material,Note,Unit,Harga Exclude,Harga Include,Perbandingan,Keterangan\n";
+    rows.forEach(r => {
+        const price = getPrice(r, includePPN);
+        const priceDisplay = price !== null && price !== undefined ? price : '';
+        const priceEx = r.priceEx !== null && r.priceEx !== undefined ? r.priceEx : '';
+        const priceInc = r.priceInc !== null && r.priceInc !== undefined ? r.priceInc : '';
+        const comp = getComparison(r);
+        const noteClean = (r.note || '').replace(/,/g,';');
+        const matClean = r.material.replace(/,/g,';');
+        const ketClean = (r.keterangan || '').replace(/,/g,';');
+        csv += `${r.no},"${matClean}","${noteClean}",${r.unit},${priceEx},${priceInc},"${comp.label}",${ketClean}\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `Mercure_Material_List_${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+
+// ========= INIT =========
+searchInput.addEventListener('input', filterData);
+noteFilter.addEventListener('change', filterData);
+
+// set default
+render();
+</script>
+</body>
+</html>
